@@ -1,0 +1,62 @@
+Word Embedding Feature Design for Product Review Classification - Project Structure
+
+/
+├── frontend/
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── chatbot.html
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   ├── auth.js
+│   │   ├── dashboard.js
+│   │   └── chatbot.js
+│   └── assets/
+│
+├── backend/
+│   ├── app.py
+│   ├── config.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   └── review.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── prediction.py
+│   │   ├── training.py
+│   │   └── chatbot.py
+│   └── utils/
+│       ├── __init__.py
+│       ├── database.py
+│       └── auth_helper.py
+│
+├── ml/
+│   ├── preprocessing.py
+│   ├── model.py
+│   ├── train.py
+│   ├── predict.py
+│   ├── explain.py
+│   └── auto_train.py
+│
+├── database/
+│   ├── schema.sql
+│   └── init_db.py
+│
+├── data/
+│   ├── reviews_dataset.csv
+│   └── .gitkeep
+│
+├── models/
+│   ├── fasttext_model.bin
+│   └── sentiment_model.h5
+│
+├── scripts/
+│   ├── download_fasttext.py
+│   └── setup_environment.sh
+│
+├── requirements.txt
+├── README.md
+└── .env.example
