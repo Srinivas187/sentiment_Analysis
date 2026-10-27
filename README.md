@@ -1,296 +1,278 @@
-# Word Embedding Feature Design for Product Review Classification
+# Sentiment Analysis
 
-**Final Year B.Tech Project (2026)**
+A full-stack sentiment analysis project for product reviews, built with Python, Flask, TensorFlow/Keras, MySQL, and a React-style frontend. The system classifies reviews as positive, negative, or neutral, stores results in a database, and provides explainability for model decisions.
 
-An Intelligent, Auto-Training, Explainable NLP System for Real-Time Product Review Sentiment Classification using FastText embeddings and Bi-LSTM with Attention mechanism.
+## Overview
 
-## 🎯 Project Overview
+This project is designed to analyze customer/product feedback using machine learning and provide a user-friendly interface to:
 
-This system implements an advanced text classification framework that leverages **Dense Word Embedding Feature Design** to transform raw review text into meaningful, low-dimensional vector representations, significantly improving classification accuracy.
+- register and log in users
+- submit product reviews
+- classify review sentiment in real time
+- view explanation highlights for predictions
+- interact with a chatbot for review analysis
+- trigger model training and monitor training status
 
-### Key Features
+The backend exposes REST API endpoints, while the frontend provides a dashboard and report interface for end users.
 
-- ✅ **FastText Embeddings**: Handles typos, slang, and rare words through sub-word embeddings
-- ✅ **Bi-LSTM + Attention**: Captures context in both forward and backward directions
-- ✅ **Explainable AI**: SHAP-based explanation of predictions with word-level contributions
-- ✅ **Auto-Training**: Automatic model retraining when threshold (500 reviews) is reached
-- ✅ **Real-time Classification**: Live sentiment prediction with MySQL storage
-- ✅ **Chatbot Interface**: NLP-based chat UI for interactive queries
-- ✅ **User Authentication**: Secure login/register system with JWT tokens
+## Features
 
-## 📋 Prerequisites
+- Real-time sentiment classification for product reviews
+- Support for positive, negative, and neutral sentiment labels
+- User authentication and authorization
+- MySQL-backed review and prediction storage
+- Model explainability for key review words
+- Chatbot-style sentiment assistance
+- Auto-training trigger based on review volume
+- Frontend dashboard for predictions and analytics
+- Dummy model fallback for local development and demo environments
 
-- Python 3.8+
-- MySQL 8.0+
-- Node.js 16+ (optional, for frontend development)
+## Tech Stack
 
-## 🚀 Installation
+### Backend
+- Python 3.10+
+- Flask
+- Flask-CORS
+- Flask-JWT-Extended
+- MySQL / MySQL Connector
+- SQLAlchemy
 
-### 1. Clone the Repository
+### Machine Learning
+- TensorFlow / Keras
+- NumPy, Pandas, Scikit-learn
+- Gensim
+- NLTK
+- SHAP
 
-```bash
-git clone <repository-url>
-cd "Word Embedding Feature Design for Product Review Classification"
+### Frontend
+- HTML / CSS / JavaScript
+- React-style frontend structure in `frontend/`
+
+## Repository Structure
+
+```text
+sentiment_Analysis/
+├── backend/
+│   ├── __init__.py
+│   ├── app.py
+│   ├── auth.py
+│   ├── auto_train.py
+│   ├── config.py
+│   ├── db_utils.py
+│   └── model_manager.py
+├── database/
+│   ├── init_db.py
+│   └── schema.sql
+├── frontend/
+│   ├── README.md
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public/
+│   └── src/
+├── ml/
+│   ├── __init__.py
+│   ├── create_dummy_model_files.py
+│   ├── explainability.py
+│   ├── model.py
+│   └── preprocessing.py
+├── data/
+│   └── ...
+├── .gitignore
+├── check_and_install.py
+├── project_structure.txt
+├── requirements.txt
+├── run_all.py
+├── run_project.py
+├── setup_db_fixed.py
+├── README.md
+└── SETUP.md
 ```
 
-### 2. Create Virtual Environment
+## Getting Started
+
+### Prerequisites
+
+Before running the project, make sure you have:
+
+- Python 3.10 or later
+- MySQL Server installed and running
+- Git
+- Node.js and npm (for frontend development)
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/Srinivas187/sentiment_Analysis.git
+cd sentiment_Analysis
+```
+
+### Create a Virtual Environment
 
 ```bash
 python -m venv venv
 
-# On Windows
-venv\Scripts\activate.bat        # or run the PowerShell script after adjusting execution policy
+# Windows
+venv\Scripts\activate
 
-# On Linux/Mac
+# Linux / macOS
 source venv/bin/activate
 ```
 
-> **Windows tip:** if `python` is not found or points to a non‑existent path
-> (e.g. `C:\Python314\python.exe`), make sure a supported Python installation
-> (3.8–3.11, 64‑bit) is on your `%PATH%` or use the `py` launcher:
->
-> ```powershell
-> py -3.11 -m venv venv    # explicitly choose the installed Python version
-> ```
->
-> Running `where python` (or `py -0p`) shows which interpreter is being used.
-> Adjust your PATH or reinstall Python if it points to a missing location.
-
-
-### 3. Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Download NLTK Data
+### Set Up the Database
 
-```python
-python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
-```
-
-### 5. Database Setup
-
-1. Install MySQL and create database:
+The database can be initialized using the project scripts.
 
 ```bash
-mysql -u root -p < database/schema.sql
+python setup_db_fixed.py
 ```
 
-Or run the initialization script:
+Or use the database initialization helper from the project runner.
+
+## Running the Application
+
+### Option 1: Run Everything with the Project Script
+
+This is the easiest way to start the app locally.
 
 ```bash
-python database/init_db.py
+python run_all.py
 ```
 
-2. Update database configuration in `backend/config.py` or create `.env` file:
+This script will:
+- install dependencies (if needed)
+- initialize the database
+- create dummy model artifacts if missing
+- start the backend API
+- start the frontend static server
 
-```bash
-cp .env.example .env
-# Edit .env with your database credentials
-```
+### Option 2: Start Components Manually
 
-## 🏃 Running the Application
-
-### 1. Train Initial Model
-
-First, train the model with initial data:
-
-```bash
-python ml/train_model.py
-```
-
-This will:
-- Load data from `data/reviews_dataset.csv`
-- Build vocabulary
-- Create FastText embeddings
-- Train Bi-LSTM + Attention model
-- Save model to `models/best_model.h5`
-
-### 2. Start Backend Server
+#### Start the backend
 
 ```bash
 python backend/app.py
 ```
 
-Backend will run on `http://localhost:5000`
+The backend runs on:
 
-### 3. Open Frontend
+```text
+http://localhost:5000
+```
 
-Open `frontend/index.html` in your web browser or serve it with a local server:
+#### Start the frontend
 
 ```bash
 cd frontend
-python -m http.server 8000
+npm install
+npm start
 ```
 
-Then open `http://localhost:8000` in your browser.
+The frontend usually runs on:
 
-## 📁 Project Structure
-
-```
-.
-├── backend/
-│   ├── app.py              # Flask main application
-│   ├── auth.py             # Authentication module
-│   ├── model_manager.py    # Model loading and prediction
-│   ├── auto_train.py       # Auto-training logic
-│   ├── db_utils.py         # Database utilities
-│   └── config.py           # Configuration
-├── ml/
-│   ├── preprocessing.py    # Text preprocessing
-│   ├── embedding_loader.py # FastText embeddings
-│   ├── model.py            # Bi-LSTM + Attention model
-│   ├── explainability.py   # SHAP explainability
-│   └── train_model.py      # Training script
-├── frontend/
-│   └── index.html          # Web UI
-├── database/
-│   ├── schema.sql          # Database schema
-│   └── init_db.py          # Database initialization
-├── data/
-│   └── reviews_dataset.csv # Training data
-├── models/                 # Saved models (created after training)
-├── requirements.txt        # Python dependencies
-└── README.md              # This file
+```text
+http://localhost:3000
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
+
+The backend provides the following routes:
 
 ### Authentication
-- `POST /api/register` - Register new user
-- `POST /api/login` - Login user
+- `POST /api/register`
+- `POST /api/login`
 
 ### Prediction
-- `POST /api/predict` - Predict sentiment for review
-- `POST /api/explain` - Get explanation for prediction
+- `POST /api/predict`
+- `POST /api/explain`
+- `POST /api/chat`
 
-### Chatbot
-- `POST /api/chat` - Chatbot interaction
+### Training / Monitoring
+- `POST /api/train`
+- `GET /api/status`
+- `POST /api/upload-csv`
 
-### Training
-- `POST /api/train` - Trigger manual training (admin only)
-- `GET /api/status` - Get system status
+### Root
+- `GET /`
 
-## 🔄 Auto-Training System
+## Example API Request
 
-The system automatically retrains the model when:
-- 500 new reviews are added (threshold)
-- New reviews are stored in MySQL database
-- CSV file is updated with new reviews
+### Register user
 
-Auto-training process:
-1. New reviews stored in MySQL
-2. CSV file updated automatically
-3. When threshold reached, training triggered
-4. New model replaces old one
-5. System uses latest model for predictions
-
-## 🧪 Model Architecture
-
-```
-Input Text
-    ↓
-Preprocessing (Tokenization, Cleaning)
-    ↓
-FastText Embeddings (300-dim)
-    ↓
-Bi-LSTM (128 units, bidirectional)
-    ↓
-Attention Layer
-    ↓
-Dense Layer (64 units)
-    ↓
-Output (3 classes: Negative, Neutral, Positive)
-```
-
-## 📊 Performance
-
-- **Accuracy**: 96%+ on validation set
-- **Architecture**: Bi-LSTM with Attention
-- **Embeddings**: FastText (300 dimensions)
-- **Sequence Length**: 200 tokens
-- **Vocabulary Size**: 10,000 words
-
-## 🛠️ Usage Examples
-
-### Register User
-
-```python
-POST /api/register
-{
+```bash
+curl -X POST http://localhost:5000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{
     "name": "John Doe",
     "email": "john@example.com",
     "password": "password123"
-}
+  }'
 ```
 
-### Login
+### Predict sentiment
 
-```python
-POST /api/login
-{
-    "email": "john@example.com",
-    "password": "password123"
-}
-```
-
-### Predict Sentiment
-
-```python
-POST /api/predict
-Headers: Authorization: Bearer <token>
-{
-    "review_text": "This product is amazing! Great quality and fast delivery.",
+```bash
+curl -X POST http://localhost:5000/api/predict \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "review_text": "This product is excellent and works perfectly.",
     "rating": 5
-}
+  }'
 ```
 
-### Chatbot Query
+## Model & Explanation
 
-```python
-POST /api/chat
-Headers: Authorization: Bearer <token>
-{
-    "message": "Why is this review positive?",
-    "review_text": "Excellent product, highly recommend!"
-}
-```
+The project uses a text classification model to identify the sentiment of product reviews. It also includes explainability features that highlight the words contributing most strongly to the prediction.
 
-## 🐛 Troubleshooting
+This helps users understand why a review was classified as positive, negative, or neutral.
 
-### Model Not Loading
+## Data Flow
 
-If model is not loaded, train it first:
-```bash
-python ml/train_model.py
-```
+1. User registers or logs in.
+2. Review text is submitted through the frontend or API.
+3. The backend preprocesses the review and sends it to the model.
+4. The model predicts the sentiment.
+5. The prediction is stored in the database.
+6. Explainability data is generated and returned to the client.
+7. Training can be triggered automatically or manually.
 
-### Database Connection Error
+## Configuration
 
-Check database credentials in `backend/config.py` or `.env` file.
+The project config is mainly stored in:
 
-### Import Errors
+- `backend/config.py`
+- `.env` files (if used locally)
 
-Ensure all dependencies are installed:
-```bash
-pip install -r requirements.txt
-```
+Set your MySQL and application settings there before running the project in a local environment.
 
-## 📝 License
+## Notes
 
-This project is part of a B.Tech Final Year Project (2026).
+- This project is intended for learning, demo, and academic use.
+- The repository includes a dummy model generation script so that local development can proceed even before a trained model is available.
+- For production-grade deployment, additional security, validation, and infrastructure hardening should be implemented.
 
-## 👥 Authors
+## License
 
-- Batch-8, CSE-C, Vasavi College
+This project is available for educational and personal use. Please check repository ownership and usage rights before production deployment or commercial redistribution.
 
-## 🙏 Acknowledgments
+## Contributors
 
-- FastText for word embeddings
-- TensorFlow/Keras for deep learning
-- SHAP for explainable AI
+This repository is maintained and developed as a sentiment analysis / product review classification project.
+
+## Acknowledgements
+
+- Flask for API development
+- TensorFlow and Keras for deep learning
+- MySQL for data storage
+- NLTK and Gensim for NLP processing
+- SHAP for explainability
 
 ---
 
-**Note**: This is a production-ready prototype system. For production deployment, ensure proper security measures, error handling, and scalability optimizations.
+If you want, I can also generate a more polished version with badges, screenshots, architecture diagram, and a project-specific demo section for GitHub.
